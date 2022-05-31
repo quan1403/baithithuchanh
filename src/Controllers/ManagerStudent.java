@@ -1,11 +1,13 @@
 package Controllers;
 
-import jdk.nashorn.internal.ir.Symbol;
+
+import models.SortGiamDan;
 import models.SortTangDan;
 import models.Student;
 
+import java.io.*;
 import java.util.ArrayList;
-import java.util.Collections;
+
 import java.util.Scanner;
 
 public class ManagerStudent {
@@ -37,10 +39,30 @@ public class ManagerStudent {
                 delete();
                 break;
             case 5:
-                sort();
+                System.out.println("Chọn chức năng:");
+                System.out.println("1.Sắp xếp điểm trung bình tăng dần:");
+                System.out.println("2.Sắp xếp điểm giảm dần:");
+                System.out.println("3.Thoát");
+                int choice1 = Integer.parseInt(sc.nextLine());
+                switch (choice1) {
+                    case 1:
+                    students.sort(new SortTangDan());
+                    break;
+                    case 2:
+                    students.sort(new SortGiamDan());
+                    break;
+                    case 3:
+                    default:
+                        System.out.println("lựa chọn sai");
+                }
                 break;
             case 6:
+
+                students=Reader();
+                break;
             case 7:
+                write();
+                break;
             case 8:
                 System.exit(0);
                 break;
@@ -116,20 +138,36 @@ public class ManagerStudent {
             System.out.println("không có id ");
         }
     }
+    public void write(){
+        ObjectOutputStream output = null;
+        FileOutputStream fileOutputStream = null;
+        try {
+            fileOutputStream = new FileOutputStream("C:\\Users\\ADMIN\\Desktop\\weed4-module2\\baithithuchanh1\\src\\danhsachSV.csv");
+            output = new ObjectOutputStream(fileOutputStream);
 
-    public void sort() {
-        System.out.println("Chọn chức năng:");
-        System.out.println("1.Sắp xếp điểm trung bình tăng dần:");
-        System.out.println("2.Sắp xếp điểm giảm dần:");
-        System.out.println("3.Thoát");
-        int choice1 = Integer.parseInt(sc.nextLine());
-        if (choice1 == 1) {
-            students.sort(new SortTangDan());
-        } else if  (choice1 == 2) {
-            Collections.sort(students);
+            output.writeObject(students);
+            output.flush();
+            output.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println("Ghi file thành công");
+    }
+    ArrayList<Student> Reader()  {
+        ObjectInputStream inputStream;
+        FileInputStream fileInputStream;
+        try {
+            fileInputStream = new FileInputStream("C:\\Users\\ADMIN\\Desktop\\weed4-module2\\baithithuchanh1\\src\\danhsachSV.csv");
+            inputStream = new ObjectInputStream(fileInputStream);
+            return (ArrayList<Student>) inputStream.readObject();
+
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
 
     }
+
+
 
 
 }
