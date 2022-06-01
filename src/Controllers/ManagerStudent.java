@@ -69,28 +69,37 @@ public class ManagerStudent {
         }
     }
 
-    public void addStudents() {
+    public Student creatStudents() {
+        String gender = null;
+        int id = 0;
+        String name = null;
+        int age = 0;
+        String address = null;
+        double mediumscore = 0;
         try {
             System.out.println("Nhập mã sinh viên:");
-            int id = Integer.parseInt(sc.nextLine());
+            id = Integer.parseInt(sc.nextLine());
             System.out.println("Nhập tên sinh viên:");
-            String name = sc.nextLine();
+            name = sc.nextLine();
             System.out.println("Nhập tuổi sinh sinh viên:");
-            int age = Integer.parseInt(sc.nextLine());
+            age = Integer.parseInt(sc.nextLine());
             System.out.println("Nhập giới tính của sinh viên:");
-            String gender = sc.nextLine();
+            gender = sc.nextLine();
             System.out.println("Nhập địa chỉ:");
-            String address = sc.nextLine();
+            address = sc.nextLine();
             System.out.println("Nhập điểm trung bình");
-            double mediumscore = Double.parseDouble(sc.nextLine());
-            Student student = new Student(id, name, age, gender, address, mediumscore);
-            students.add(student);
+            mediumscore = Double.parseDouble(sc.nextLine());
+
 
         } catch (NumberFormatException e) {
             System.out.println("Nhập lại đi sai cụ m rồi");
-            ;
+
         }
 
+        return new Student(id, name, age, gender, address, mediumscore);
+    }
+    public void addStudents(){
+        students.add(creatStudents());
     }
 
     public void showAll() {
@@ -108,10 +117,8 @@ public class ManagerStudent {
         for (int i = 0; i < students.size(); i++) {
             if (students.get(i).getId() == id) {
                 isExisted = true;
-                students.get(i).setName(sc.nextLine());
-                students.get(i).setAge(Integer.parseInt(sc.nextLine()));
-                students.get(i).setGender(sc.nextLine());
-                students.get(i).setAddress(sc.nextLine());
+                students.remove(i);
+               addStudents();
                 break;
 
             }
